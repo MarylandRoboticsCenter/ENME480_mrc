@@ -51,11 +51,11 @@ public:
     // ctrlRunCheck();
 
     // Controller manager service to manage the io controller
-    // io_client_srv_ = node_->create_client<ur_msgs::srv::SetIO>("/io_and_status_controller/set_io", rmw_qos_profile_services_default, io_cb_group_);
-    // io_client_srv_->wait_for_service();
+    io_client_srv_ = node_->create_client<ur_msgs::srv::SetIO>("/io_and_status_controller/set_io", rmw_qos_profile_services_default, io_cb_group_);
+    io_client_srv_->wait_for_service();
 
-    // RCLCPP_INFO(node_->get_logger(), "Turning ON the vacuum generator");
-    // ioStartStop(1);
+    RCLCPP_INFO(node_->get_logger(), "Turning ON the vacuum generator");
+    ioStartStop(1);
 
     ur3e_isReady = true;
 
@@ -235,12 +235,12 @@ private:
   {
     if (msg.data && !laserP_isON && ur3e_isReady)
     {
-      // ioCtrl(17, 1); // turning the laser pointer ON
+      ioCtrl(17, 1); // turning the laser pointer ON
       laserP_isON = true;
     }
     else if (!msg.data && laserP_isON)
     {
-      // ioCtrl(17, 0); // turning the laser pointer OFF
+      ioCtrl(17, 0); // turning the laser pointer OFF
       laserP_isON = false;
     }
   }
@@ -259,12 +259,12 @@ private:
 
     if (msg.io_0 && !grip_isON)
     {
-      // ioCtrl(1, 1); // turning the gripper ON
+      ioCtrl(1, 1); // turning the gripper ON
       grip_isON = true;
     }
     else if (!msg.io_0 && grip_isON)
     {
-      // ioCtrl(1, 0); // turning the gripper OFF
+      ioCtrl(1, 0); // turning the gripper OFF
       grip_isON = false;
     }
 
@@ -280,7 +280,7 @@ private:
 
     if (ur3e_isReady) {
       // turning off the laser pointer off before moving
-      // ioCtrl(17, 0); // turning the laser pointer OFF
+      ioCtrl(17, 0); // turning the laser pointer OFF
       laserP_isON = false;      
 
       ur3e_isReady = false;
