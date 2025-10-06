@@ -23,5 +23,5 @@
 #include "ur_msgs/msg/io_states.hpp"
 #include "ur_msgs/srv/set_io.hpp"
 
-#include "ur3e_mrc/msg/command_ur3e.hpp"
+#include "ur3e_mrc_msgs/msg/command_ur3e.hpp"
 

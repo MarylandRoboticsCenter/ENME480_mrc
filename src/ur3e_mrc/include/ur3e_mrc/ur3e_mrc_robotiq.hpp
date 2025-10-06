@@ -9,4 +9,4 @@
 
 #include <ur_rtde/robotiq_gripper.h>
 
-#include "ur3e_mrc/srv/gripper_command.hpp"
+#include "ur3e_mrc_msgs/srv/gripper_command.hpp"

@@ -10,13 +10,13 @@ public:
       "joint_states", 10, std::bind(&UR3eENME480JS::js_callback, this, std::placeholders::_1));
     RCLCPP_INFO(this->get_logger(), "Subscribed to joint states");
 
-    pos_pub_ = this->create_publisher<ur3e_mrc::msg::PositionUR3e>("ur3/position", 10);
+    pos_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::PositionUR3e>("ur3/position", 10);
   }
 
 private:
   void js_callback(const sensor_msgs::msg::JointState & msg) const
   {
-    ur3e_mrc::msg::PositionUR3e pos_msg;
+    ur3e_mrc_msgs::msg::PositionUR3e pos_msg;
 
     pos_msg.position = {msg.position[5] - boost::math::constants::pi<double>() / 2, msg.position[0], msg.position[1], msg.position[2] + boost::math::constants::pi<double>() / 2, msg.position[3], msg.position[4]};
     pos_msg.is_ready = true;
@@ -25,7 +25,7 @@ private:
   }
 
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr sub_js_;
-  rclcpp::Publisher<ur3e_mrc::msg::PositionUR3e>::SharedPtr pos_pub_;
+  rclcpp::Publisher<ur3e_mrc_msgs::msg::PositionUR3e>::SharedPtr pos_pub_;
 };
 
 class UR3eENME480IO : public rclcpp::Node
@@ -39,7 +39,7 @@ public:
     
 
     grip_grasp_pub_ = this->create_publisher<std_msgs::msg::Bool>("gripper/grasping", 10);
-    grip_inp_pub_ = this->create_publisher<ur3e_mrc::msg::GripperInput>("ur3/gripper_input", 10);
+    grip_inp_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::GripperInput>("ur3/gripper_input", 10);
 
   }
 
@@ -47,7 +47,7 @@ private:
   void io_callback(const ur_msgs::msg::IOStates & msg) const
   { 
     std_msgs::msg::Bool grip_grasp_msg;
-    ur3e_mrc::msg::GripperInput grip_inp_msg;
+    ur3e_mrc_msgs::msg::GripperInput grip_inp_msg;
 
     grip_grasp_msg.data = msg.digital_in_states[0].state;
 
@@ -66,7 +66,7 @@ private:
 
   rclcpp::Subscription<ur_msgs::msg::IOStates>::SharedPtr sub_io_;
   rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr grip_grasp_pub_;
-  rclcpp::Publisher<ur3e_mrc::msg::GripperInput>::SharedPtr grip_inp_pub_;
+  rclcpp::Publisher<ur3e_mrc_msgs::msg::GripperInput>::SharedPtr grip_inp_pub_;
 };
 
 

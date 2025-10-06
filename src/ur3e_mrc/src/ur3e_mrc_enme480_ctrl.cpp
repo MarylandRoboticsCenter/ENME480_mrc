@@ -31,7 +31,7 @@ public:
 
     rclcpp::SubscriptionOptions options_comm;
     options_comm.callback_group = sub_cb_group_;
-    sub_comm_ = node_->create_subscription<ur3e_mrc::msg::CommandUR3e>("ur3/command", 10, std::bind(&UR3eENME480Control::comm_callback, this, std::placeholders::_1), options_comm);
+    sub_comm_ = node_->create_subscription<ur3e_mrc_msgs::msg::CommandUR3e>("ur3/command", 10, std::bind(&UR3eENME480Control::comm_callback, this, std::placeholders::_1), options_comm);
     RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3 command");
 
     rclcpp::SubscriptionOptions options_lp;
@@ -142,7 +142,7 @@ private:
   rclcpp::CallbackGroup::SharedPtr io_cb_group_;
   rclcpp::CallbackGroup::SharedPtr lp_cb_group_;
 
-  rclcpp::Subscription<ur3e_mrc::msg::CommandUR3e>::SharedPtr sub_comm_;
+  rclcpp::Subscription<ur3e_mrc_msgs::msg::CommandUR3e>::SharedPtr sub_comm_;
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr sub_lp_;  
 
   rclcpp_action::Client<control_msgs::action::FollowJointTrajectory>::SharedPtr client_traj_;
@@ -245,7 +245,7 @@ private:
     }
   }
 
-  void comm_callback(const ur3e_mrc::msg::CommandUR3e & msg)
+  void comm_callback(const ur3e_mrc_msgs::msg::CommandUR3e & msg)
   {
     // RCLCPP_INFO(node_->get_logger(), "Got ur3e command");
     if (msg.destination.size() != N_JOINTS)

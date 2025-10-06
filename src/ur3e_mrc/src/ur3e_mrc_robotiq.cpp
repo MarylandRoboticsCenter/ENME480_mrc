@@ -48,8 +48,8 @@ public:
     sub_comm_ = node_->create_subscription<std_msgs::msg::Bool>("ur3/grip_command", 10, std::bind(&UR3eMRCRobotiq::comm_callback, this, std::placeholders::_1), options_comm);
     RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3/grip_command");
 
-    // serv_comm_ = node_->create_service<ur3e_mrc::srv::GripperCommand>("ur3/grip_command", std::bind(&UR3eMRCRobotiq::comm_handle this, std::placeholders::_1), service_cb_group_);
-    serv_comm_ = node_->create_service<ur3e_mrc::srv::GripperCommand>("ur3/grip_command", std::bind(&UR3eMRCRobotiq::comm_handle, this, std::placeholders::_1, std::placeholders::_2), rmw_qos_profile_services_default, service_cb_group_);
+    // serv_comm_ = node_->create_service<ur3e_mrc_msgs::srv::GripperCommand>("ur3/grip_command", std::bind(&UR3eMRCRobotiq::comm_handle this, std::placeholders::_1), service_cb_group_);
+    serv_comm_ = node_->create_service<ur3e_mrc_msgs::srv::GripperCommand>("ur3/grip_command", std::bind(&UR3eMRCRobotiq::comm_handle, this, std::placeholders::_1, std::placeholders::_2), rmw_qos_profile_services_default, service_cb_group_);
     RCLCPP_INFO(node_->get_logger(), "Created ur3/grip_command service");
   }
 
@@ -67,7 +67,7 @@ private:
   rclcpp::CallbackGroup::SharedPtr service_cb_group_;
 
   rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr sub_comm_;  
-  rclcpp::Service<ur3e_mrc::srv::GripperCommand>::SharedPtr serv_comm_;
+  rclcpp::Service<ur3e_mrc_msgs::srv::GripperCommand>::SharedPtr serv_comm_;
 
   void comm_callback(const std_msgs::msg::Bool & msg)
   {
@@ -88,8 +88,8 @@ private:
   }
 
   void comm_handle(
-    const std::shared_ptr<ur3e_mrc::srv::GripperCommand::Request> request,
-    std::shared_ptr<ur3e_mrc::srv::GripperCommand::Response> response)
+    const std::shared_ptr<ur3e_mrc_msgs::srv::GripperCommand::Request> request,
+    std::shared_ptr<ur3e_mrc_msgs::srv::GripperCommand::Response> response)
   {
     int grip_togo = request->grip_pos;
     //checking if the request position is in the valid range

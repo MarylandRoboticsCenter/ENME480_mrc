@@ -4,7 +4,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import JointState
-from ur3e_mrc.msg import PositionUR3e
+from ur3e_mrc_msgs.msg import PositionUR3e
 
 class UR3eMRC_topics(Node):
     """Client for publishing modified joint states and io states topics."""
@@ -23,7 +23,7 @@ class UR3eMRC_topics(Node):
     # callback for joint states subscriber
     def js_callback(self, msg):
 
-        # ur3e_mrc::msg::PositionUR3e pos_msg;
+        # ur3e_mrc_msgs::msg::PositionUR3e pos_msg;
 
         # pos_msg.position = {msg.position[5] - boost::math::constants::pi<double>() / 2, msg.position[0], msg.position[1], msg.position[2] + boost::math::constants::pi<double>() / 2, msg.position[3], msg.position[4]};
         # pos_msg.is_ready = true;

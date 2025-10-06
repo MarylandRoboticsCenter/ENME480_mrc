@@ -11,5 +11,5 @@
 
 #include "ur_msgs/msg/io_states.hpp"
 
-#include "ur3e_mrc/msg/position_ur3e.hpp"
-#include "ur3e_mrc/msg/gripper_input.hpp"
+#include "ur3e_mrc_msgs/msg/position_ur3e.hpp"
+#include "ur3e_mrc_msgs/msg/gripper_input.hpp"
