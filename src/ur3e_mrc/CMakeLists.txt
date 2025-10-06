@@ -17,25 +17,14 @@ find_package(rclcpp_action REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(trajectory_msgs REQUIRED)
+find_package(ur3e_mrc_msgs REQUIRED)
 find_package(ur_msgs REQUIRED)
 find_package(ur_robot_driver REQUIRED)
 # find_package(ur_rtde REQUIRED)
 
 find_package(Boost REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIRS}s)
-
-set(msg_files
-  msg/CommandUR3e.msg
-  msg/GripperInput.msg
-  msg/PositionUR3e.msg
-)
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
-  "srv/GripperCommand.srv"
-)
-ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(ur3e_mrc_enme480_topics src/ur3e_mrc_enme480_topics.cpp)
 ament_target_dependencies(ur3e_mrc_enme480_topics rclcpp std_msgs sensor_msgs ur_msgs)
