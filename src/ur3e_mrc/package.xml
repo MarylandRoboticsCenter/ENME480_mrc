@@ -3,7 +3,7 @@
 <package format="3">
   <name>ur3e_mrc</name>
   <version>0.0.0</version>
-  <description>Package for topics retranslation for ENME480 lab sections</description>
+  <description>Package for topics retranslation in ENME480 lab sections</description>
   <maintainer email="ipenskiy@umd.edu">Ivan Penskiy</maintainer>
   <license file="LICENSE">BSD-3-Clause</license>
 

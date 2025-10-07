@@ -11,16 +11,11 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 
 from builtin_interfaces.msg import Duration
-# from std_msgs.msg import Bool
-# from sensor_msgs.msg import JointState
 from control_msgs.action import FollowJointTrajectory
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import JointTolerance
 from action_msgs.msg import GoalStatus
-# from ur_msgs.msg import IOStates
 from ur3e_mrc_msgs.msg import CommandUR3e
-# from ur3e_mrc_msgs.msg import PositionUR3e
-# from ur3e_mrc_msgs.msg import GripperInput
 
 N_JOINTS = 6
 
@@ -49,21 +44,18 @@ class UR3eMRC_ctrl(Node):
         self.sub_comm_  # prevent unused variable warning
         self.get_logger().info(f"Subscribed to ur3e command")
 
+        self.joints = ["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]
+
         self.ur3e_isReady = True
 
         self.goal = JointTrajectory()
-        self.goal.trajectory.joint_names.append("shoulder_pan_joint")
-        self.goal.trajectory.joint_names.append("shoulder_lift_joint")
-        self.goal.trajectory.joint_names.append("elbow_joint")
-        self.goal.trajectory.joint_names.append("wrist_1_joint")
-        self.goal.trajectory.joint_names.append("wrist_2_joint")
-        self.goal.trajectory.joint_names.append("wrist_3_joint")
+        self.goal.joint_names = self.joints
         
-        self.point = JointTrajectoryPoint()
-        self.point.positions = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self.point.velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self.point.accelerations = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self.goal.points.append(self.point)
+        point = JointTrajectoryPoint()
+        point.positions = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        point.velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        point.accelerations = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.goal.points.append(point)
 
         self._send_goal_future = None
         self._get_result_future = None        
@@ -76,10 +68,10 @@ class UR3eMRC_ctrl(Node):
             self.get_logger().warn(f"WARNNING: wrong number of values in ur3e command")
             return
         
-        self.goal.trajectory.points[0].positions = msg.destination
-        self.goal.trajectory.points[0].positions[0] += math.pi / 2
-        self.goal.trajectory.points[0].positions[3] -= math.pi / 2
-        self.goal.trajectory.points[0].time_from_start = Duration(sec=2, nanosec=0)
+        self.goal.points[0].positions = msg.destination
+        self.goal.points[0].positions[0] += math.pi / 2
+        self.goal.points[0].positions[3] -= math.pi / 2
+        self.goal.points[0].time_from_start = Duration(sec=2, nanosec=0)
 
         if (self.ur3e_isReady):
 
