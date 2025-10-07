@@ -27,7 +27,7 @@ find_package(Boost REQUIRED)
 include_directories(include ${Boost_INCLUDE_DIRS}s)
 
 add_executable(ur3e_mrc_enme480_topics src/ur3e_mrc_enme480_topics.cpp)
-ament_target_dependencies(ur3e_mrc_enme480_topics rclcpp std_msgs sensor_msgs ur_msgs)
+ament_target_dependencies(ur3e_mrc_enme480_topics rclcpp std_msgs sensor_msgs ur_msgs ur3e_mrc_msgs)
 
 add_executable(ur3e_mrc_enme480_ctrl src/ur3e_mrc_enme480_ctrl.cpp)
 ament_target_dependencies(ur3e_mrc_enme480_ctrl 
@@ -41,6 +41,7 @@ ament_target_dependencies(ur3e_mrc_enme480_ctrl
   std_msgs 
   trajectory_msgs
   ur_msgs
+  ur3e_mrc_msgs
 )
 
 # add_executable(ur3e_mrc_robotiq src/ur3e_mrc_robotiq.cpp)
@@ -75,9 +76,6 @@ install(
 #   TARGETS ur3e_mrc_robotiq
 #   DESTINATION lib/${PROJECT_NAME}
 #   INCLUDES DESTINATION include)
-
-rosidl_get_typesupport_target(cpp_typesupport_target
-  ${PROJECT_NAME} rosidl_typesupport_cpp)
 
 target_link_libraries(ur3e_mrc_enme480_topics "${cpp_typesupport_target}")
 target_link_libraries(ur3e_mrc_enme480_ctrl "${cpp_typesupport_target}")

@@ -7,10 +7,6 @@
   <maintainer email="ipenskiy@umd.edu">Ivan Penskiy</maintainer>
   <license file="LICENSE">BSD-3-Clause</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
-  <buildtool_depend>ament_cmake_python</buildtool_depend>
-
-  <depend>rclcpp</depend>  
   <depend>rclpy</depend>
   <depend>ur3e_mrc_msgs</depend>
 
@@ -18,6 +14,7 @@
   <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>ament_python</build_type>
   </export>
 </package>
+

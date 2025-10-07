@@ -9,8 +9,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-include_directories(include ${Boost_INCLUDE_DIRS}s)
-
 set(msg_files
   msg/CommandUR3e.msg
   msg/GripperInput.msg
