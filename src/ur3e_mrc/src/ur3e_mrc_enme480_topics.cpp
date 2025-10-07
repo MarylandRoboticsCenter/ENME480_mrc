@@ -10,7 +10,7 @@ public:
       "joint_states", 10, std::bind(&UR3eENME480JS::js_callback, this, std::placeholders::_1));
     RCLCPP_INFO(this->get_logger(), "Subscribed to joint states");
 
-    pos_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::PositionUR3e>("ur3/position", 10);
+    pos_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::PositionUR3e>("ur3e/position", 10);
   }
 
 private:
@@ -39,7 +39,7 @@ public:
     
 
     grip_grasp_pub_ = this->create_publisher<std_msgs::msg::Bool>("gripper/grasping", 10);
-    grip_inp_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::GripperInput>("ur3/gripper_input", 10);
+    grip_inp_pub_ = this->create_publisher<ur3e_mrc_msgs::msg::GripperInput>("ur3e/gripper_input", 10);
 
   }
 

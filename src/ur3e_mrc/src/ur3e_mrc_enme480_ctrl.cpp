@@ -31,13 +31,13 @@ public:
 
     rclcpp::SubscriptionOptions options_comm;
     options_comm.callback_group = sub_cb_group_;
-    sub_comm_ = node_->create_subscription<ur3e_mrc_msgs::msg::CommandUR3e>("ur3/command", 10, std::bind(&UR3eENME480Control::comm_callback, this, std::placeholders::_1), options_comm);
-    RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3 command");
+    sub_comm_ = node_->create_subscription<ur3e_mrc_msgs::msg::CommandUR3e>("ur3e/command", 10, std::bind(&UR3eENME480Control::comm_callback, this, std::placeholders::_1), options_comm);
+    RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3e command");
 
     rclcpp::SubscriptionOptions options_lp;
     options_lp.callback_group = lp_cb_group_;
-    sub_lp_ = node_->create_subscription<std_msgs::msg::Bool>("ur3/laser_point", 10, std::bind(&UR3eENME480Control::lp_callback, this, std::placeholders::_1), options_lp);
-    RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3 laser point ");    
+    sub_lp_ = node_->create_subscription<std_msgs::msg::Bool>("ur3e/laser_point", 10, std::bind(&UR3eENME480Control::lp_callback, this, std::placeholders::_1), options_lp);
+    RCLCPP_INFO(node_->get_logger(), "Subscribed to ur3e laser point ");    
 
     // // Controller manager service to switch controllers
     // controller_manager_srv_ = node_->create_client<controller_manager_msgs::srv::SwitchController>("controller_manager/switch_controller");
