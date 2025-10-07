@@ -14,19 +14,7 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ```
     docker compose -f humble-enme480_ur3e-compose.yml run --rm enme480_ur3e-docker
     ```
-* Once inside the container, use `tmux` to manage multiple panes. Create 4 panes to work with an UR3e arm:
-  * `tmux`      # Start a new session
-  * `Ctrl+A b`  # Split horizontally
-  * `Ctrl+A v`  # Split vertically
-* Launch the UR3e driver in one of the terminals:
-    ```
-    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.77.22 kinematics_params_file:=${HOME}/enme480_ws/config/ur3e_mrc.yaml
-    ```
-* On the teaching pendant start the program that allows ROS2 communication:
-    `
-    Programs-->URCaps-->External Control-->Control_by_MRC_ur3e_pc
-    `
-* Build your development workspace:
+* Once inside the container, build your development workspace:
     ```
     cd enme480_ws
     colcon build --symlink-install
@@ -35,7 +23,19 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ```
     source install/setup.bash
     ```
-* Launch MRC UR3e package in a diiferent `tmux` pane:
+* Use `tmux` to manage multiple panes. Create 4 panes to work with an UR3e arm:
+  * `tmux`      # Start a new session
+  * `Ctrl+A b`  # Split horizontally
+  * `Ctrl+A v`  # Split vertically
+* Launch the UR3e driver in one of the tmux panes:
+    ```
+    ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur3e robot_ip:=192.168.77.22 kinematics_params_file:=${HOME}/enme480_ws/config/ur3e_mrc.yaml
+    ```
+* On the teaching pendant start the program that allows ROS2 communication:
+    `
+    Programs-->URCaps-->External Control-->Control_by_MRC_ur3e_pc
+    `
+* Launch MRC UR3e package in a different `tmux` pane:
     ```
     ros2 launch ur3e_mrc ur3e_enme480.launch
     ```
@@ -56,11 +56,34 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ```
     docker compose -f humble-enme480_ur3e-nvidia-compose.yml run --rm enme480_ur3e-docker
     ```
-* *work in progress
-
+* Once inside the container, build your development workspace:
     ```
-    xacro enme480_ur3e_xacro.sdf > enme480_ur3e.sdf
+    cd enme480_ws
+    colcon build --symlink-install
     ```
+* Source your development workspace:
+    ```
+    source install/setup.bash
+    ```
+* Use `tmux` to manage multiple panes. Create several panes to work with the Gazebo simulation:
+  * `tmux`      # Start a new session
+  * `Ctrl+A b`  # Split horizontally
+  * `Ctrl+A v`  # Split vertically
+* Launch MRC UR3e Gazebo simulation in one of the `tmux` panes:
+    ```
+    ros2 launch enme480_sim enme480_ur3e_sim.launch.py
+    ```
+* Launch MRC UR3e sim control package in a different `tmux` pane:
+    ```
+    ros2 launch ur3e_mrc_sim ur3e_enme480.launch
+    ```
+* Example command to move the arm:
+    ```
+    ros2 topic pub --once /ur3e/command ur3e_mrc_msgs/msg/CommandUR3e "destination: [0, -1.57, -1.57, 0, 0, 0]
+    v: 1.0
+    a: 1.0
+    io_0: false" 
+    ```    
 
 Used resources:
 1. https://github.com/2b-t/docker-for-robotics
