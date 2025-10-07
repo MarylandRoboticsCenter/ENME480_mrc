@@ -75,7 +75,7 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ```
 * Launch MRC UR3e sim control package in a different `tmux` pane:
     ```
-    ros2 launch ur3e_mrc_sim ur3e_enme480.launch
+    ros2 launch ur3e_mrc_sim ur3e_enme480.launch.py
     ```
 * Example command to move the arm:
     ```
