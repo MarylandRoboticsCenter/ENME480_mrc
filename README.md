@@ -77,6 +77,12 @@ This repository contains a Docker image for working with UR3e robotic arms in th
   ros2 run ur3e_enme480 ur3e_ik <x> <y> <z> <yawDeg>
   ```
 
+* In order to enable the laser pointer run the command:
+
+```bash
+ros2 topic pub --once /ur3e/laser_point std_msgs/msg/Bool "data: true"
+```
+
 
 ## Workflow for launching Gazebo simulation on personal computers
 
