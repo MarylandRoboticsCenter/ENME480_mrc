@@ -10,6 +10,30 @@ This repository contains a Docker image for working with UR3e robotic arms in th
 
 ## Workflow for controlling UR3e arms in the RAL lab
 
+* Update the repository to be on the latest commit
+
+  ```
+  cd ~/rosPackages/ENME480_mrc
+  git checkout .
+  git pull
+  ```
+
+* Repeat for the ur3e_enme480 repository
+
+  If folder does not exist,
+  ```
+  cd ~/rosPackages/ENME480_mrc/src
+  git clone https://github.com/ENME480/ur3e_enme480.git
+  ```
+
+  else:
+
+  ```
+  cd ~/rosPackages/ENME480_mrc/src/ur3e_enme480
+  git checkout .
+  git pull
+  ```
+
 * Start the container (run the command from the `docker` folder):
     ```
     docker compose -f humble-enme480_ur3e-compose.yml run --rm enme480_ur3e-docker
@@ -40,6 +64,18 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ros2 launch ur3e_mrc ur3e_enme480.launch
     ```
 * Launch your node to move the arm in another `tmux` pane: `ros2 run {your node name}` or `ros2 launch {your launch file}`
+
+  Forward Kinematics
+
+  ```
+  ros2 run ur3e_enme480 ur3e_fk <th1> <th2> <th3> <th4> <th5> <th6>
+  ```
+
+  Inverse Kinematics
+
+  ```
+  ros2 run ur3e_enme480 ur3e_ik <x> <y> <z> <yawDeg>
+  ```
 
 
 ## Workflow for launching Gazebo simulation on personal computers
