@@ -16,6 +16,8 @@ from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from control_msgs.msg import JointTolerance
 from action_msgs.msg import GoalStatus
 from ur3e_mrc_msgs.msg import CommandUR3e
+from std_msgs.msg import Bool
+
 
 N_JOINTS = 6
 
@@ -44,6 +46,10 @@ class UR3eMRC_ctrl(Node):
         self.sub_comm_  # prevent unused variable warning
         self.get_logger().info(f"Subscribed to ur3e command")
 
+
+        # republishing vacuum gripper command for Gazebo simulation
+        self.grip_comm_ = self.create_publisher(Bool, "gripper/vac_on", 10)   
+
         self.joints = ["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]
 
         self.ur3e_isReady = True
@@ -58,7 +64,10 @@ class UR3eMRC_ctrl(Node):
         self.goal.points.append(point)
 
         self._send_goal_future = None
-        self._get_result_future = None        
+        self._get_result_future = None
+
+        self.old_joints = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.grip_state = False
 
 
     # callback for joint states command subscriber
@@ -68,25 +77,48 @@ class UR3eMRC_ctrl(Node):
             self.get_logger().warn(f"WARNNING: wrong number of values in ur3e command")
             return
         
-        self.goal.points[0].positions = msg.destination
-        self.goal.points[0].positions[0] += math.pi / 2
-        self.goal.points[0].positions[3] -= math.pi / 2
-        self.goal.points[0].time_from_start = Duration(sec=2, nanosec=0)
-
-        if (self.ur3e_isReady):
-
-            self.ur3e_isReady = False
-            goal = FollowJointTrajectory.Goal()
-            goal.trajectory = self.goal
-
-            goal.goal_time_tolerance = Duration(sec=0, nanosec=500000000)
-            goal.goal_tolerance = [JointTolerance(position=0.01, velocity=0.01, name=self.joints[i]) for i in range(6)]
-
-            self._send_goal_future = self._action_client.send_goal_async(goal)
-            self._send_goal_future.add_done_callback(self.goal_response_callback)            
+        grip_msg = Bool()
+        if (msg.io_0 and (not self.grip_state)):
+            grip_msg.data = True
+            self.grip_state = True
+            self.get_logger().warn(f"Turning vacuum gripper ON")
+            self.grip_comm_.publish(grip_msg)
+        elif ((not msg.io_0) and self.grip_state):
+            grip_msg.data = False
+            self.grip_state = False
+            self.get_logger().warn(f"Turning vacuum gripper OFF")
+            self.grip_comm_.publish(grip_msg)
         
+        # checking difference between goal and current joints
+        total_diff = sum(abs(x - y) for x, y in zip(msg.destination, self.old_joints))
+        # self.get_logger().info(f'current joints: {self.old_joints}')
+        # self.get_logger().info(f'goal joints: {msg.destination}')
+        # self.get_logger().info(f'goal difference: {total_diff}')
+        for ii in range(len(self.old_joints)):
+            self.old_joints[ii] = msg.destination[ii]
+        
+        if (total_diff < 0.001):
+            self.get_logger().info(f'Justing switching vacuum gripper')
         else:
-            self.get_logger().info(f"Trajectory controller is not ready yet")
+            self.goal.points[0].positions = msg.destination
+            self.goal.points[0].positions[0] += math.pi / 2
+            self.goal.points[0].positions[3] -= math.pi / 2
+            self.goal.points[0].time_from_start = Duration(sec=2, nanosec=0)
+
+            if (self.ur3e_isReady):
+
+                self.ur3e_isReady = False
+                goal = FollowJointTrajectory.Goal()
+                goal.trajectory = self.goal
+
+                goal.goal_time_tolerance = Duration(sec=0, nanosec=500000000)
+                goal.goal_tolerance = [JointTolerance(position=0.01, velocity=0.01, name=self.joints[i]) for i in range(6)]
+
+                self._send_goal_future = self._action_client.send_goal_async(goal)
+                self._send_goal_future.add_done_callback(self.goal_response_callback)            
+            
+            else:
+                self.get_logger().info(f"Trajectory controller is not ready yet")
 
 
     def goal_response_callback(self, future):

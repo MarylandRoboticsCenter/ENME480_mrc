@@ -31,7 +31,8 @@ class UR3eMRC_topics(Node):
     def js_callback(self, msg):
         pos_msg = PositionUR3e()
 
-        pos_msg.position = [msg.position[5] - math.pi/2, msg.position[0], msg.position[1], msg.position[2] + math.pi/2, msg.position[3], msg.position[4]]
+        # pos_msg.position = [msg.position[5] - math.pi/2, msg.position[0], msg.position[1], msg.position[2] + math.pi/2, msg.position[3], msg.position[4]]
+        pos_msg.position = [msg.position[0] - math.pi/2, msg.position[1], msg.position[2], msg.position[3] + math.pi/2, msg.position[4], msg.position[5]]
         pos_msg.is_ready = True
 
         self.pub_pos_.publish(pos_msg)

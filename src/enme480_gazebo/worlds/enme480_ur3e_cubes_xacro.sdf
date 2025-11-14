@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <sdf version="1.6" xmlns:xacro="http://ros.org/wiki/xacro">
-  <world name="enme480_sim">
+  <world name="enme480_gazebo_cubes">
 
   <physics type="ode">
     <max_step_size>0.003</max_step_size>
@@ -215,145 +215,20 @@
   <xacro:property name="cube_x_loc" value="${stand_width/4}"/>
   <xacro:property name="cube_y_loc" value="${stand_depth/2}"/>
   
-
-  <model name="cube_1">
+  <include>
+    <uri>model://cubeAr1</uri>
+    <pose>0.28025 0.403 0.8175 0 0 0</pose>
     <pose>${cube_x_loc} ${cube_y_loc} ${stand_height+holder_height+cube_size} 0 0 0</pose>
-    <link name="cube_1_link">
-      <inertial>
-        <mass>0.01</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="cube_1_collision">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="cube_1_visual">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-        <material>
-          <diffuse>1 0 0 1</diffuse>
-        </material>
-      </visual>
-    </link>
-  </model>
-
-  <model name="cube_2">
+  </include>
+  <include>
+    <uri>model://cubeAr2</uri>
     <pose>${cube_x_loc*0} ${cube_y_loc} ${stand_height+holder_height+cube_size} 0 0 0</pose>
-    <link name="cube_2_link">
-      <inertial>
-        <mass>0.01</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="cube_2_collision">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="cube_2_visual">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-        <material>
-          <diffuse>0 1 0 1</diffuse>
-        </material>
-      </visual>
-    </link>
-  </model>
+  </include>
+  <include>
+    <uri>model://cubeAr3</uri>
+    <pose>${-1*cube_x_loc} ${cube_y_loc} ${stand_height+holder_height+cube_size} 0 0 0</pose>
+  </include>
 
-  <model name="cube_3">
-    <pose>${cube_x_loc*(-1)} ${cube_y_loc} ${stand_height+holder_height+cube_size} 0 0 0</pose>
-    <link name="cube_3_link">
-      <inertial>
-        <mass>0.01</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="cube_3_collision">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="cube_3_visual">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-        <material>
-          <diffuse>0 0 1 1</diffuse>
-        </material>
-      </visual>
-    </link>
-  </model>
-
-  <model name="cube_4">
-    <pose>${cube_x_loc*(-5)} ${cube_y_loc} ${stand_height+holder_height+cube_size} 0 0 0</pose>
-    <link name="cube_4_link">
-      <inertial>
-        <mass>0.01</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <collision name="cube_4_collision">
-        <geometry>
-          <box>
-            <size>${cube_size} ${cube_size} ${cube_size}</size>
-          </box>
-        </geometry>
-      </collision>
-      <visual name="cube_4_visual">
-        <geometry>
-          <mesh>  
-            <scale>1 1 1</scale>
-              <uri>
-                model://cube_n/many_colors_cube.obj
-              </uri>
-          </mesh>
-        </geometry>
-        <material>
-          <diffuse>0 0 1 1</diffuse>
-        </material>
-      </visual>
-    </link>
-  </model>
 
   <model name="camera">
     <pose>0 ${stand_depth/2.5} ${stand_height*2.8} 0.0 1.57 1.57</pose>
