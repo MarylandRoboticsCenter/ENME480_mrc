@@ -66,7 +66,7 @@ def launch_setup(context, *args, **kwargs):
 
     # Set the paths
     world_file_path = PathJoinSubstitution([
-        FindPackageShare("enme480_sim"),
+        FindPackageShare("enme480_gazebo"),
         "worlds",
         world_file
     ])
@@ -197,7 +197,10 @@ def launch_setup(context, *args, **kwargs):
         arguments=[
             "/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock",
             "/camera@sensor_msgs/msg/Image@gz.msgs.Image",
-            "/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo"
+            "/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo",
+            "/gripper/contacts/suction_cup@std_msgs/msg/Bool[ignition.msgs.Boolean",
+            "/gripper/contact_sensor_0@ros_gz_interfaces/msg/Contacts[ignition.msgs.Contacts",
+            "/gripper/vac_on@std_msgs/msg/Bool]ignition.msgs.Boolean",
         ],
         output="screen",
     )
@@ -308,7 +311,7 @@ def generate_launch_description():
     declared_arguments.append(
         DeclareLaunchArgument(
             "world_file",
-            default_value="enme480_ur3e.sdf",
+            default_value="enme480_ur3e_cubes.sdf",
             description="Gazebo world file (absolute path or filename from the gazebosim worlds collection) containing a custom world.",
         )
     )
