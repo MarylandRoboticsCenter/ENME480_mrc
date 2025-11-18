@@ -128,6 +128,10 @@ RUN source /opt/ros/humble/setup.bash && \
 #####################
 FROM humble-ur_mrc AS humble-enme480_ur3e_ws
 
+# adding missing python modules
+RUN pip3 install keyboard \
+    pydantic==1.10.9
+
 # Set up UR3e workspace
 RUN source /opt/ros/humble/setup.bash && \
 	mkdir -p $HOME/${WS_DIR}/src && \
