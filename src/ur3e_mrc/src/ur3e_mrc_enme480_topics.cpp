@@ -18,8 +18,8 @@ private:
   {
     ur3e_mrc_msgs::msg::PositionUR3e pos_msg;
 
-    // pos_msg.position = {msg.position[5] - boost::math::constants::pi<double>() / 2, msg.position[0], msg.position[1], msg.position[2] + boost::math::constants::pi<double>() / 2, msg.position[3], msg.position[4]};
-    pos_msg.position = {msg.position[0] - boost::math::constants::pi<double>() / 2, msg.position[1], msg.position[2], msg.position[3] + boost::math::constants::pi<double>() / 2, msg.position[4], msg.position[5]};
+    pos_msg.position = {msg.position[5] - boost::math::constants::pi<double>() / 2, msg.position[0], msg.position[1], msg.position[2] + boost::math::constants::pi<double>() / 2, msg.position[3], msg.position[4]};
+    // pos_msg.position = {msg.position[0] - boost::math::constants::pi<double>() / 2, msg.position[1], msg.position[2], msg.position[3] + boost::math::constants::pi<double>() / 2, msg.position[4], msg.position[5]};
     pos_msg.is_ready = true;
 
     pos_pub_->publish(pos_msg);
