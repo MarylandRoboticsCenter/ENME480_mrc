@@ -33,5 +33,6 @@ services:
       - ../src:/home/${USERNAME_DOCKER}/${WS_DIR}/src
       - ../config:/home/${USERNAME_DOCKER}/${WS_DIR}/config
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY}:/home/${USERNAME_DOCKER}/.Xauthority
 
 
