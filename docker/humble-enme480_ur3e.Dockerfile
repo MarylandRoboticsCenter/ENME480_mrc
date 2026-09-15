@@ -59,11 +59,11 @@ RUN sudo apt-get update && sudo apt-get install -y \
 # upgrading colcon package to fix symlink issues
 RUN pip3 install setuptools==58.2.0
 
-# Install auxilary ROS packages, using new Gazebo
+# Install auxilary ROS packages, using new Gazebo.
 RUN sudo apt-get update && sudo apt-get install -y \
-    ros-humble-ros-gz-* \
+    ros-humble-ros-gz \
     ros-humble-usb-cam \
-    ros-humble-moveit-* && \
+    ros-humble-moveit && \
     sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
 
 
@@ -131,6 +131,14 @@ FROM humble-ur_mrc AS humble-enme480_ur3e_ws
 # adding missing python modules
 RUN pip3 install keyboard \
     pydantic==1.10.9
+
+# rqt plugins, tf helpers 
+RUN sudo apt-get update && sudo apt-get install -y \
+    "ros-humble-rqt*" \
+    ros-humble-turtlesim \
+    ros-humble-tf-transformations && \
+    sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/*
+
 
 # Set up UR3e workspace
 RUN source /opt/ros/humble/setup.bash && \
