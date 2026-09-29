@@ -68,11 +68,19 @@ This repository contains a Docker image for working with UR3e robotic arms in th
 * Now we are ready to begin publishing joint angles to the robot. To do this, run the command with angles on your datasheet.
 
 ```
-ros2 topic pub --once /ur3/command ur3e_mrc/msg/CommandUR3e "destination: [tht1, tht2, tht3, tht4, tht5, tht6] 
+ros2 topic pub --once /ur3e/command ur3e_mrc_msgs/msg/CommandUR3e "destination: [tht1, tht2, tht3, tht4, tht5, tht6] 
 v: 1.0 
 a: 1.0 
 io_0: false"
 ```
+
+* Example command to move the arm:
+    ```
+    ros2 topic pub --once /ur3e/command ur3e_mrc_msgs/msg/CommandUR3e "destination: [0, -1.57, -1.57, 0, 0, 0]
+    v: 1.0
+    a: 1.0
+    io_0: false" 
+    ```    
 
 
 * In order to enable the laser pointer run the command:
