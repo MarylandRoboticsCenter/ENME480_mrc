@@ -36,6 +36,7 @@ This repository contains a Docker image for working with UR3e robotic arms in th
 
 * Start the container (run the command from the `docker` folder):
     ```
+    cd ~/rosPackages/ENME480_mrc/docker
     docker compose -f humble-enme480_ur3e-compose.yml run --rm enme480_ur3e-docker
     ```
 * Once inside the container, build your development workspace:
@@ -63,6 +64,25 @@ This repository contains a Docker image for working with UR3e robotic arms in th
     ```
     ros2 launch ur3e_mrc ur3e_enme480.launch
     ```
+
+* Now we are ready to begin publishing joint angles to the robot. To do this, run the command with angles on your datasheet.
+
+```
+ros2 topic pub --once /ur3/command ur3e_mrc/msg/CommandUR3e "destination: [tht1, tht2, tht3, tht4, tht5, tht6] 
+v: 1.0 
+a: 1.0 
+io_0: false"
+```
+
+
+* In order to enable the laser pointer run the command:
+
+```bash
+ros2 topic pub --once /ur3e/laser_point std_msgs/msg/Bool "data: true"
+```
+
+--------------------------------- For Week 6 onwards ------------------------------------------
+
 * Launch your node to move the arm in another `tmux` pane: `ros2 run {your node name}` or `ros2 launch {your launch file}`
 
   Forward Kinematics
